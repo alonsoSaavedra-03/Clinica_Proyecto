@@ -1,0 +1,81 @@
+:root{
+    --colorPrimario: #2FA4A9;      /* Verde médico suave */
+    --colorSecundario: #4F8EF7;    /* Azul confianza */
+    --colorTerciario: #A7D7E8;     /* Azul claro relajante */
+
+    --colorSombreas: #1F2D3D;      /* Azul oscuro elegante */
+    --colorTitulos: #1F2D3D;       /* Títulos sobrios */
+    --colorTitulosSecundario: #ffffff; /* Títulos secundarios */
+    --colorParrafos: #5F6B73;      /* Gris suave legible */
+
+    --colorFondo: #F7FAFC;         /* Fondo limpio tipo hospital */
+    --colorFondoSecundario: #c9302c;  /* Fondo de tarjetas o paneles */
+    --colorBordes: #000f20;        /* Bordes sutiles */
+
+    --zIndexNormal: 1;
+    --zIndexTooltip: 10;
+    --zIndexFixed: 100;
+    --zIndexModal: 1000;
+    --zIndexPopUp: 10000;
+
+}
+
+
+/* Estilos personalizados para el sidebar */
+#sidebar {
+            min-width: 250px;
+            max-width: 250px;
+            min-height: 100vh;
+            background-color: var(--colorPrimario);
+        }
+.main-content {
+            width: 100%;
+            background-color: var(--colorFondo);
+        }
+.nav-link {
+            color: white;
+            margin-bottom: 10px;
+        }
+.nav-link:hover {
+            background-color: var(--colorFondo);
+        }
+
+.titulo{
+    font-family:'Lato', sans-serif;
+    font-size: 1.5rem;
+    color:var(--colorTitulos);
+}
+.titulopanel{
+    font-family:'Lato', sans-serif;
+    font-size: 1.5rem;
+    color:var(--colorTitulosSecundario);
+}
+.panel{
+    color: var(--colorTitulos);
+    font-weight: bold;
+    border-color: var(--colorBordes);
+}
+
+.ola{
+    font-family:'Lato', sans-serif;
+    color: var(--colorTitulos);
+}
+
+.imagen{
+    width: 100%;
+    height: auto;
+    margin-bottom: 25px;
+}
+
+.logout{
+    color: var(--colorTitulos);
+    font-weight: bold;
+    border-color: var(--colorBordes);
+    margin-top: 375px;
+
+}
+.nav-link-logout:hover{
+    background-color: var(--colorFondoSecundario);
+    
+
+}
