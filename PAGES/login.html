@@ -15,10 +15,10 @@
     <script src="https://kit.fontawesome.com/812c8ee19a.js" crossorigin="anonymous"></script>
 
     <!-- FAVICON DE LA APLICACIÓN DE MATRICULA -->
-    <link rel="shortcut icon" href="img/logo.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../imagenes/logo.png" type="image/x-icon">
 
     <!-- Hoja de estilos -->
-    <link rel="stylesheet" href="/CSS/login_styles.css">
+    <link rel="stylesheet" href="../CSS/login_styles.css">
 
     <!-- Librería Jquery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -26,19 +26,26 @@
 </head>
 <body>
     
+
     <div class="contenedor_formulario">
-    <article class="login-card">
-        <h1 class="login__titulo">Iniciar Sesión</h1>
-        <form class="formulario" id="loginForm">
-        <input class="formulario__input" type="text" id="txtUsuario" placeholder="Usuario" required>
-        <i class="fa-solid fa-user" style="color: #1f2d3d;"></i>
-        <input class="formulario__input" type="password" id="txtPassword" placeholder="Contraseña" autocomplete="current-password" autocorrect="off" required>
-        <i class="fa-solid fa-lock" style="color: #1f2d3d;"></i>
-        <button class="formulario__boton" type="submit">Inicia Sesión</button>
-        </form>
-        <p class="formulario__mensaje">¿No tienes una cuenta? <a href="#" class="formulario__link">Registrate</a></p>
-        <div id="mensaje"></div>
-    </article>
+        <article class="login-card">
+            <h1 class="login__titulo">Iniciar Sesión</h1>
+            <form class="formulario" id="loginForm">
+            <div class="contenedor__input">
+                <i class="fa-solid fa-user"></i>
+                <input class="formulario__input" type="text" id="txtUsuario" placeholder="Usuario" required>
+            </div>
+            <div class="contenedor__input">
+                <i class="fa-solid fa-lock"></i>
+                <input class="formulario__input" type="password" id="txtPassword" placeholder="Contraseña" autocomplete="current-password" required>
+                </div>
+            <button class="formulario__boton" type="submit">Inicia Sesión</button>
+            </form>
+            <p class="formulario__mensaje">
+            ¿No tienes una cuenta? <a href="#" class="formulario__link">Regístrate</a>
+            </p>
+            <div id="mensaje"></div>
+            </article>
     </div>
 
 
@@ -47,7 +54,7 @@
 
 
     <!-- login JS -->
-    <script src="js/login.js"></script>
+    <script src="../JS/login.js"></script>
 
 
     <!-- Librería SweetAlert -->
