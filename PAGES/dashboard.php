@@ -1,3 +1,12 @@
+<?php
+
+session_start();
+
+if (!isset($_SESSION['usuario_id'])) {
+    header("Location: login.html");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -44,7 +53,9 @@
                     <button class="nav-link btn w-100 text-start panel" >Gestión de Documentos</button>
                 </li>
                 <li class="nav-item">
+                    <a href="../PHP/logout.php">
                     <button class="nav-link-logout btn w-100 text-start logout" >Cerrar Sesión</button>
+                    </a>
                 </li>
             </ul>
         </nav>
