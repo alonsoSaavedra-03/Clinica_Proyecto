@@ -2,7 +2,7 @@
 
 session_start();
 
-if (!isset($_SESSION['usuario_id'])) {
+if (!isset($_SESSION['empleado_id'])) {
     header("Location: login.html");
     exit();
 }
