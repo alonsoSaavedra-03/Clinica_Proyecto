@@ -1,0 +1,118 @@
+:root{
+    --colorPrimario: #2FA4A9;      /* Verde médico suave */
+    
+    --colorSecundario: #4F8EF7;    /* Azul confianza */
+    --colorTerciario: #A7D7E8;     /* Azul claro relajante */
+
+    --colorSombreas: #1F2D3D;      /* Azul oscuro elegante */
+    --colorTitulos: #1F2D3D;       /* Títulos sobrios */
+    --colorParrafos: #5F6B73;      /* Gris suave legible */
+
+    --colorFondo: #F7FAFC;         /* Fondo limpio tipo hospital */
+    --colorBordes: #D9E2EC;        /* Bordes sutiles */
+
+    --zIndexNormal: 1;
+    --zIndexTooltip: 10;
+    --zIndexFixed: 100;
+    --zIndexModal: 1000;
+    --zIndexPopUp: 10000;
+
+}
+
+body{
+    background: linear-gradient(90deg, var(--colorPrimario) 10%, var(--colorSecundario) 30%, var(--colorTerciario) 75%, #FFFF 100%);
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: "Poppins", sans-serif;
+    margin: 0;
+    }
+
+    .contenedor_formulario{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    }
+
+    .login-card{
+    background-color: var(--colorFondo);
+    backdrop-filter: blur(4px);
+    border-radius: 1em;
+    border: 2px solid rgba(255, 255, 255, 0.22);
+    box-shadow: 0px 10px 25px rgba(0,0,0,0.2);
+    padding: 30px;
+    display: grid;
+    }
+    
+    .login__titulo{
+    color: var(--colorTitulos);
+    font-weight: bold;
+    }
+
+    .formulario{
+    margin-top: 12px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0);
+    border-radius: 8px;
+    border: var(--colorBordes);
+    max-width: 500px;
+    display: grid;
+    justify-content: center;
+    }
+
+    .contenedor__input {
+        position: relative;
+        width: 100%;
+    }
+    .contenedor__input i {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #1f2d3d;
+        pointer-events: none;
+    }
+    .formulario__input{
+    background-color: rgb(240, 240, 240);
+    border: none;
+    border-radius: 14px;
+    padding: 7px 10px 7px 40px;
+    margin: 8px 0;
+    width: 100%;
+    color: var(--colorTitulos);
+    }
+
+    .formulario__input:focus{
+    outline: none;
+    box-shadow: 0 0 5px var(--colorPrimario);
+    }
+
+    .formulario__boton{
+    margin-top: 10px;
+    background-color: var(--colorPrimario);
+    color: white;
+    border: none;
+    border-radius: 14px;
+    padding: 10px;
+    cursor: pointer;
+    }
+
+    .formulario__boton:hover{
+    background-color: #4FC3C8;;
+    transform: translateY(-2px);
+    transition: 0.3s;
+    }
+    .formulario__mensaje{
+    color: var(--colorParrafos);
+    }
+
+    .formulario__link{
+    text-decoration: none;
+    color: var(--colorParrafos);
+    }
+
+    .formulario__link:hover{
+    color: var(--colorSecundario);
+    text-decoration: underline;
+    transition: .25s;
+    }
