@@ -148,5 +148,4 @@ VALUES
 (3,5,'10mg','Una vez al día'),
 (5,4,'100mg','Cada 12 horas');
 
-DROP TABLE IF EXISTS RECETA;
 
