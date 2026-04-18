@@ -3,7 +3,7 @@
 session_start();
 
 if (!isset($_SESSION['empleado_id'])) {
-    header("Location: login.html");
+    header("Location: ../../views/layout/login.html");
     exit();
 }
 ?>
@@ -20,13 +20,13 @@ if (!isset($_SESSION['empleado_id'])) {
       <script src="https://kit.fontawesome.com/812c8ee19a.js" crossorigin="anonymous"></script>
 
     <!-- FAVICON DE LA APLICACIÓN DE Clinica -->
-     <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon"> <!-- buscar una imagen de logotipo en ppts  -->
+     <link rel="shortcut icon" href="../../assets/IMAGE/LOGOS/favicon.ico" type="image/x-icon"> <!-- buscar una imagen de logotipo en ppts  -->
 
     <!-- FUENTES DE GOOGLE FONTS  --> <!-- puedo cambiarlo en google fonts -->
      <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
     <!-- HOJA DE ESTILOS  -->
-     <link rel="stylesheet" href="../CSS/dashboard.css" >
+     <link rel="stylesheet" href="../../assets/CSS/dashboard.css" >
 
     <!-- LIBRERIA JQUERY -->  
      <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -35,7 +35,7 @@ if (!isset($_SESSION['empleado_id'])) {
 <body>
 <div class="d-flex">
         <nav id="sidebar" class="p-3">
-            <img class="imagen" src="../Imagenes/logo.png">
+            <img class="imagen" src="../../assets/IMAGE/LOGOS/logo.png">
             <ul class="nav flex-column">
                 <li class="nav-item">
                     <button class="nav-link btn w-100 text-start panel" >Inicio</button>
@@ -53,7 +53,7 @@ if (!isset($_SESSION['empleado_id'])) {
                     <button class="nav-link btn w-100 text-start panel" >Gestión de Documentos</button>
                 </li>
                 <li class="nav-item">
-                    <a href="../PHP/logout.php">
+                    <a href="../../PHP/logout.php">
                     <button class="nav-link-logout btn w-100 text-start logout" >Cerrar Sesión</button>
                     </a>
                 </li>
