@@ -2,6 +2,6 @@
 session_start();
 session_destroy();
 session_unset();
-header("Location: ../PAGES/login.html");
+header("Location: ../views/layout/login.html");
 exit();
 ?>

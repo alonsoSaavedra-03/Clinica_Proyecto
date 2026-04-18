@@ -7,9 +7,9 @@ $(document).ready(function () {
   // Capturamos los datos ingresados por el Usuario en una variable
     let usuario = $("#txtUsuario").val();
     let password = $("#txtPassword").val();
-
+    
     $.ajax({
-        url: "../PHP/login.php",
+        url: "../../views/auth/login.php",
         type: "POST",
         dataType: "json",
         data: {
@@ -40,7 +40,7 @@ $(document).ready(function () {
         timer: 2000, // El popup se cierra solo en 2 segundos
         }).then(() => {
         // Esta redirección se ejecuta cuando el timer termina
-        window.location.href = "../PAGES/dashboard.php";
+        window.location.href = "../../views/admin/dashboard.php";
         });
 
         } else {
