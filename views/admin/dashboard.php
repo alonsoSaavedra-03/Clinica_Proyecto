@@ -38,13 +38,13 @@ if (!isset($_SESSION['empleado_id'])) {
             <img class="imagen" src="../../assets/IMAGE/LOGOS/logo.png">
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <button class="nav-link btn w-100 text-start panel" >Inicio</button>
+                    <button id="btnInicio" class="nav-link btn w-100 text-start panel" >Inicio</button>
                 </li>
                 <li class="nav-item">
-                    <button class="nav-link btn w-100 text-start panel" >Pacientes</button>
+                    <button id="btnPacientes" class="nav-link btn w-100 text-start panel" >Pacientes</button>
                 </li>
                 <li class="nav-item">
-                    <button class="nav-link btn w-100 text-start panel" >Citas</button>
+                    <button id="btnCitas" class="nav-link btn w-100 text-start panel" >Citas</button>
                 </li>
                 <li class="nav-item">
                     <button class="nav-link btn w-100 text-start panel" >Gestión de Medicamentos</button>
@@ -92,10 +92,9 @@ if (!isset($_SESSION['empleado_id'])) {
 
 
 
-
   <!-- LIBRERIA JS SWEET ALERT -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    <script src="/Clinica_Proyecto/assets/JS/dashboard.js"></script>
   <!-- LIBRERIA JS DE BOOTSTRAP -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
