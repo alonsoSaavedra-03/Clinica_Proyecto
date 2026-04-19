@@ -15,6 +15,7 @@ $(document).ready(function(){
 
 });
 
+// Función para cargar los medicamentos desde la API
 function cargarMedicamentos(){
 
     $.ajax({
@@ -70,7 +71,7 @@ function cargarMedicamentos(){
     });
 }
 
-
+// Función para cargar los datos del dashboard
 function cargarDashboard(){
 
     $.ajax({
@@ -94,7 +95,7 @@ function cargarDashboard(){
     });
 }
 
-
+// Función para abrir el modal de movimiento (entrada/salida)
 function abrirMovimiento(id, tipo){
 
     tipoMovimiento = tipo;
@@ -107,9 +108,11 @@ function abrirMovimiento(id, tipo){
     $("#cantidad").val("");
     $("#motivo").val("");
 
-    $("#modalMovimiento").modal("show");
+    let modal = new bootstrap.Modal(document.getElementById('modalMovimiento'));
+    modal.show();
 }
 
+// Función para guardar un nuevo movimiento (entrada o salida)
 function guardarMovimiento(){
 
     let data = {
@@ -140,6 +143,8 @@ function guardarMovimiento(){
     });
 }
 
+
+// Función para guardar un nuevo medicamento desde el modal
 function guardarMedicamento(){
 
     let data = {
@@ -188,7 +193,7 @@ $("#btnKardex").click(function(){
     modal.show();
 });
 
-
+// Función para cargar el kardex desde la API
 function cargarKardex(){
 
     $.ajax({
@@ -212,6 +217,7 @@ function cargarKardex(){
     });
 }
 
+// Función para renderizar el kardex en la tabla
 function renderKardex(data){
 
     let html = "";
@@ -245,6 +251,7 @@ function renderKardex(data){
     $("#tablaKardex").html(html);
 }
 
+// Función para filtrar el kardex por texto y tipo
 function filtrarKardex(data){
 
     let texto = $("#buscarKardex").val().toLowerCase();
@@ -259,4 +266,20 @@ function filtrarKardex(data){
     });
 
     renderKardex(filtrado);
+}
+
+
+
+// Función para inicializar el módulo de medicamentos desde el dashboard
+function initMedicamentos(){
+    cargarMedicamentos();
+    cargarDashboard();
+
+    $("#buscador").on("keyup", function(){
+        let valor = $(this).val().toLowerCase();
+
+        $("#tablaMedicamentos tr").filter(function(){
+            $(this).toggle($(this).text().toLowerCase().indexOf(valor) > -1)
+        });
+    });
 }

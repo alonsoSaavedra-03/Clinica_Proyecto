@@ -9,8 +9,7 @@
     --colorParrafos: #5F6B73;      /* Gris suave legible */
 
     --colorFondo: #F7FAFC;         /* Fondo limpio tipo hospital */
-    --colorBordes: #D9E2EC;        /* Bordes sutiles */
-
+    
     --zIndexNormal: 1;
     --zIndexTooltip: 10;
     --zIndexFixed: 100;
@@ -21,7 +20,6 @@
 
 body{
     background-color: var(--colorFondo);
-    font-family: "Poppins", sans-serif;
     margin: 0;
     }
 

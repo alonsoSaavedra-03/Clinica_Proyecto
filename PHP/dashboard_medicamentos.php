@@ -1,9 +1,13 @@
 <?php
 require_once "../config/conexion.php";
 
+    $conn = $pdo; // Aseguramos que $conn esté definido para el resto del código
+
 // HEADERS
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
+
+
 
 try {
 

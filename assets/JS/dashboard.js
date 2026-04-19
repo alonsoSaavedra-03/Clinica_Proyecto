@@ -31,4 +31,22 @@ $(document).ready(function () {
 
     });
 
+
+    $("#btnMedicamentos").click(function () {
+
+    $("#vista-dinamica").fadeOut(200, function () {
+
+        $("#vista-dinamica").load("../../views/medicamentos/medicamentos.php", function () {
+
+            $("#vista-dinamica").fadeIn(200);
+
+            // 🔥 LLAMADA LIMPIA
+            initMedicamentos();
+
+        });
+
+    });
+
+});
+
 });

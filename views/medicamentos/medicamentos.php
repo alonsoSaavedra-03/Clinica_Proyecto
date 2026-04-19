@@ -1,15 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOGIN</title>
-
     <!-- Libreria de Fuentes -- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-
-    <!-- FrameWork BOOTSTRAP -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
 
     <!-- Libreria de Iconos -->
     <script src="https://kit.fontawesome.com/812c8ee19a.js" crossorigin="anonymous"></script>
@@ -27,7 +18,11 @@
 <body>
     
     <div class="container-fluid mt-4">
-
+        <div class="d-flex align-items-center gap-3 mb-4 bg-light p-3 rounded shadow-sm">
+            <i class="fa-solid fa-pills fa-2x"></i>
+            
+        <h4 class="titulo">Gestión de Medicamentos</h4>
+        </div>
     <!-- DASHBOARD -->
     <div class="row g-4">
 
@@ -104,77 +99,76 @@
     </div>
 
     <!-- MODAL PARA MOVIMIENTOS -->
-    <div class="modal fade" id="modalMovimiento">
-  <div class="modal-dialog">
-    <div class="modal-content">
+        <div class="modal fade" id="modalMovimiento">
+    <div class="modal-dialog">
+        <div class="modal-content">
 
-      <div class="modal-header">
-        <h5 id="tituloMovimiento"></h5>
-      </div>
+        <div class="modal-header">
+            <h5 id="tituloMovimiento"></h5>
+        </div>
 
-      <div class="modal-body">
+        <div class="modal-body">
 
-        <input type="hidden" id="idMedicamento">
+            <input type="hidden" id="idMedicamento">
 
-        <input type="number" id="cantidad" class="form-control mb-2" placeholder="Cantidad">
+            <input type="number" id="cantidad" class="form-control mb-2" placeholder="Cantidad">
 
-        <textarea id="motivo" class="form-control" placeholder="Motivo"></textarea>
+            <textarea id="motivo" class="form-control" placeholder="Motivo"></textarea>
 
-      </div>
+        </div>
 
-      <div class="modal-footer">
-        <button class="btn btn-primary" onclick="guardarMovimiento()">Guardar</button>
-      </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" onclick="guardarMovimiento()">Guardar</button>
+        </div>
 
+        </div>
     </div>
-  </div>
-</div>
+    </div>
 
 <!-- MODAL KARDEX -->
-<div class="modal fade" id="modalKardex">
-  <div class="modal-dialog modal-xl">
-    <div class="modal-content">
+    <div class="modal fade" id="modalKardex">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
 
-      <!-- HEADER -->
-      <div class="modal-header bg-dark text-white">
-        <h5><i class="fa-solid fa-clock-rotate-left"></i> Kardex de Movimientos</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-      </div>
+        <!-- HEADER -->
+        <div class="modal-header bg-dark text-white">
+            <h5><i class="fa-solid fa-clock-rotate-left"></i> Kardex de Movimientos</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
 
-      <!-- FILTROS -->
-      <div class="p-3 border-bottom d-flex gap-2 flex-wrap">
-        <input type="text" id="buscarKardex" class="form-control" placeholder="Buscar medicamento...">
+        <!-- FILTROS -->
+        <div class="p-3 border-bottom d-flex gap-2 flex-wrap">
+            <input type="text" id="buscarKardex" class="form-control" placeholder="Buscar medicamento...">
 
-        <select id="filtroTipo" class="form-select" style="max-width: 180px;">
-          <option value="">Todos</option>
-          <option value="ENTRADA">Entrada</option>
-          <option value="SALIDA">Salida</option>
-        </select>
-      </div>
+            <select id="filtroTipo" class="form-select" style="max-width: 180px;">
+            <option value="">Todos</option>
+            <option value="ENTRADA">Entrada</option>
+            <option value="SALIDA">Salida</option>
+            </select>
+        </div>
 
-      <!-- TABLA -->
-      <div class="modal-body" style="max-height: 500px; overflow-y: auto;">
-        <table class="table table-hover">
-          <thead class="table-dark">
-            <tr>
-              <th>Fecha</th>
-              <th>Tipo</th>
-              <th>Medicamento</th>
-              <th>Cantidad</th>
-              <th>Saldo</th>
-              <th>Motivo</th>
-            </tr>
-          </thead>
-          <tbody id="tablaKardex"></tbody>
-        </table>
-      </div>
+        <!-- TABLA -->
+        <div class="modal-body" style="max-height: 500px; overflow-y: auto;">
+            <table class="table table-hover">
+            <thead class="table-dark">
+                <tr>
+                <th>Fecha</th>
+                <th>Tipo</th>
+                <th>Medicamento</th>
+                <th>Cantidad</th>
+                <th>Saldo</th>
+                <th>Motivo</th>
+                </tr>
+            </thead>
+            <tbody id="tablaKardex"></tbody>
+            </table>
+        </div>
 
+        </div>
     </div>
-  </div>
-</div>
+    </div>
 
-
-
+    
     <!-- TABLA -->
     <div class="table-responsive mt-3">
         <table class="table table-hover">
@@ -196,15 +190,6 @@
 
 </div>
 
+    <!-- medicamentos JS -->
+    <script src="../../assets/JS/medicamentos.js"></script>
 
-    <!-- login JS -->
-    <script src="../../assets/JS/modulo_medicamentos.js"></script>
-
-
-    <!-- Librería SweetAlert -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <!-- Librería JS de bootstrap -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
