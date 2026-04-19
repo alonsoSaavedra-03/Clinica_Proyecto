@@ -49,4 +49,20 @@ $(document).ready(function () {
 
 });
 
+ // DOCUMENTOS
+    $("#btnDocumentos").click(function () {
+
+        $("#vista-dinamica").fadeOut(200, function () {
+
+            $("#vista-dinamica").load("../../views/documentos/documentos.php", function () {
+
+                $("#vista-dinamica").fadeIn(200);
+
+            });
+
+        });
+
+    });
+
+
 });
