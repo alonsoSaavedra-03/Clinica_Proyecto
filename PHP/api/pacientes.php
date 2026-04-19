@@ -108,6 +108,12 @@ if($accion == "editar"){
         $nombre,
         $apellido,
         $celular,
+        $fecha,
+        $edad,
+        $genero,
+        $direccion,
+        $correo,
+        $username,
         $id
     ]);
 
