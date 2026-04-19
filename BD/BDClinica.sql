@@ -175,4 +175,11 @@ VALUES
 (3,5,'10mg','Una vez al día'),
 (5,4,'100mg','Cada 12 horas');
 
+INSERT INTO CATEGORIA (NOMBRE) VALUES
+('Analgésicos'),
+('Antibióticos'),
+('Antialérgicos'),
+('Vitaminas');
 
+
+SELECT * FROM CATEGORIA;
