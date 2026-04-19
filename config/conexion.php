@@ -1,5 +1,6 @@
 <?php
 
+
 $host = "localhost";
 $db = "CLINICA";
 $user = "root";
@@ -14,4 +15,5 @@ $pdo = new PDO("mysql:host=$host;dbname=$db",$user,$pass);
 echo "Error de conexión";
 
 }
+
 ?>
