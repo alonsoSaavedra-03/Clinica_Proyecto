@@ -9,7 +9,7 @@ $(document).ready(function(){
     });
 });
 
-// 🔹 CARGAR PACIENTES
+// Función para cargar los pacientes desde la API
 function cargarPacientes(){
     $.get("/Clinica_Proyecto/PHP/api/pacientes.php?accion=listar", function(data){
 
@@ -36,7 +36,7 @@ function cargarPacientes(){
     });
 }
 
-// 🔹 EVENTO DINÁMICO
+//EVENTO PARA ABRIR EL EXPEDIENTE DE UN PACIENTE
 $(document).on("click", ".btn-expediente", function(){
 
     let id = $(this).data("id");
@@ -51,14 +51,14 @@ $(document).on("click", ".btn-expediente", function(){
     modal.show();
 });
 
-// 🔹 CARGAR EXPEDIENTE
+//función para cargar el expediente de un paciente desde la API
 function cargarExpediente(id){
 
     $.get(`/Clinica_Proyecto/PHP/api_expediente.php?id=${id}`, function(data){
 
         data = JSON.parse(data);
 
-        // RECETAS
+        //recetas
         let recetasHTML = "";
         if(data.recetas.length === 0){
             recetasHTML = "<tr><td colspan='4'>Sin recetas</td></tr>";
@@ -75,7 +75,7 @@ function cargarExpediente(id){
         }
         $("#tablaRecetas").html(recetasHTML);
 
-        // DOCUMENTOS
+        //documentos
         let docsHTML = "";
         if(data.documentos.length === 0){
             docsHTML = "<li class='list-group-item'>Sin documentos</li>";
@@ -97,7 +97,7 @@ function cargarExpediente(id){
     });
 }
 
-// 🔹 SUBIR DOCUMENTO
+//EVENTO PARA SUBIR UN NUEVO DOCUMENTO
 $("#formDocumento").submit(function(e){
     e.preventDefault();
 
