@@ -1,5 +1,24 @@
 $(document).ready(function () {
 
+    // INICIO
+    $("#btnInicio").click(function () {
+
+        let nombre = $(this).data("id");
+
+        $("#vista-dinamica").fadeOut(200, function () {
+
+            $("#vista-dinamica").load("../../views/inicio/inicio.php", function () {
+
+                $("#nombrePersonal").text(nombre);
+
+                $("#vista-dinamica").fadeIn(200);
+
+            });
+
+        });
+
+    });
+
     // PACIENTES
     $("#btnPacientes").click(function () {
 
@@ -40,7 +59,6 @@ $(document).ready(function () {
 
             $("#vista-dinamica").fadeIn(200);
 
-            // 🔥 LLAMADA LIMPIA
             initMedicamentos();
 
         });
@@ -64,5 +82,5 @@ $(document).ready(function () {
 
     });
 
-
+    $("#btnInicio").click();
 });

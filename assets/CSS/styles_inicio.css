@@ -1,0 +1,107 @@
+:root{
+    --colorPrimario: #2FA4A9;
+    --colorSecundario: #4F8EF7;
+    --colorTerciario: #A7D7E8;
+
+    --colorSombreas: #1F2D3D;
+    --colorTitulos: #1F2D3D;
+    --colorTitulosSecundario: #ffffff;
+    --colorParrafos: #5F6B73;
+
+    --colorFondo: #F7FAFC;
+    --colorFondoSecundario: #c9302c;
+    --colorBordes: #000f20;
+
+    --zIndexNormal: 1;
+    --zIndexTooltip: 10;
+    --zIndexFixed: 100;
+    --zIndexModal: 1000;
+    --zIndexPopUp: 10000;
+}
+
+/* ===== CONTENEDOR ===== */
+.dashboard-inicio {
+    width: 100%;
+}
+
+/* ===== BIENVENIDA ===== */
+.bienvenida-card {
+    padding: 30px;
+    border-radius: 20px;
+}
+
+.bienvenida-titulo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--colorTitulos);
+}
+
+.bienvenida-texto {
+    color: var(--colorParrafos);
+    margin-top: 10px;
+    font-size: 0.95rem;
+}
+
+/* ===== TARJETAS RESUMEN ===== */
+.stat-card {
+    text-align: center;
+    padding: 25px;
+    border-radius: 20px;
+    transition: 0.25s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+}
+
+/* número principal */
+.stat-card h3 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--colorPrimario);
+    margin: 5px 0;
+}
+
+/* título */
+.stat-card h6 {
+    font-size: 0.9rem;
+    color: var(--colorParrafos);
+    margin-bottom: 5px;
+}
+
+/* ===== ACTIVIDAD ===== */
+.actividad-card {
+    padding: 25px;
+    border-radius: 20px;
+    margin-top: 20px;
+}
+
+/* título */
+.actividad-card h5 {
+    font-weight: 600;
+    color: var(--colorTitulos);
+    margin-bottom: 15px;
+}
+
+/* lista */
+.lista-actividad {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* items */
+.lista-actividad li {
+    background: var(--colorFondo);
+    padding: 12px 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    color: var(--colorParrafos);
+    font-size: 0.95rem;
+    transition: 0.2s;
+}
+
+/* hover */
+.lista-actividad li:hover {
+    background: var(--colorTerciario);
+}

@@ -6,7 +6,8 @@ if (!isset($_SESSION['empleado_id'])) {
     header("Location: ../../views/layout/login.html");
     exit();
 }
-
+$NombreSession = $_SESSION['nombre_completo'] ?? 'Usuario';
+$NombrePersonal = $_SESSION['nombres_empleado'] ?? 'Usuario';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,26 +27,35 @@ if (!isset($_SESSION['empleado_id'])) {
     <!-- FUENTES DE GOOGLE FONTS  --> <!-- puedo cambiarlo en google fonts -->
      <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
-    <!-- HOJA DE ESTILOS  -->
+    <!-- HOJA DE ESTILOS  DASHBOARD -->
      <link rel="stylesheet" href="../../assets/CSS/dashboard.css" >
+
+    <!-- Hoja de estilos MEDICAMENTOS-->
+    <link rel="stylesheet" href="../../assets/css/styles_medicamentos.css">
+
+    <!-- Hoja de estilos INICIO -->
+    <link rel="stylesheet" href="../../assets/css/styles_inicio.css">
 
     <!-- LIBRERIA JQUERY -->  
      <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
      
 </head>
 <body>
-<div class="d-flex">
+    <div class="d-flex">
         <nav id="sidebar" class="p-3">
-            <img class="imagen" src="../../assets/IMAGE/LOGOS/logo.png">
+            <div class="logo-container">
+                <img class="imagen" src="../../assets/IMAGE/LOGOS/cruz-logo.png">
+                <span class="logo-text">Salud & Vida</span>
+            </div>
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <button id="btnInicio" class="nav-link btn w-100 text-start panel" >Inicio</button>
+                    <button id="btnInicio" class="nav-link btn w-100 text-start panel" data-id="<?php echo $NombrePersonal; ?>" >Inicio</button>
                 </li>
                 <li class="nav-item">
                     <button id="btnPacientes" class="nav-link btn w-100 text-start panel" >Pacientes</button>
                 </li>
                 <li class="nav-item">
-                    <button id="btnCitas" class="nav-link btn w-100 text-start panel" >Citas</button>
+                    <button id="btnCitas" class="btn w-100 text-start panel nav-link" >Citas</button>
                 </li>
                 <li class="nav-item">
                     <button id="btnMedicamentos" class="nav-link btn w-100 text-start panel" >Gestión de Medicamentos</button>
@@ -72,7 +82,7 @@ if (!isset($_SESSION['empleado_id'])) {
                     
                     <div class="d-flex align-items-center">
                         <span class="fw-bold text-primary">
-                            Usuario Conectado
+                            <?php echo $NombreSession; ?>
                         </span>
                     </div>
                 </div>

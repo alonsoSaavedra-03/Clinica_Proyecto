@@ -1,22 +1,4 @@
-    <!-- Libreria de Fuentes -- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
 
-    <!-- Libreria de Iconos -->
-    <script src="https://kit.fontawesome.com/812c8ee19a.js" crossorigin="anonymous"></script>
-
-    <!-- FAVICON DE LA APLICACIÓN DE MATRICULA -->
-    <link rel="shortcut icon" href="../../assets/IMAGE/LOGOS/favicon.ico" type="image/x-icon">
-
-    <!-- Hoja de estilos -->
-    <link rel="stylesheet" href="../../assets/css/styles_medicamentos.css">
-
-    <!-- Librería Jquery -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
-</head>
-<body>
-    
     <div class="container-fluid mt-4">
         <div class="d-flex align-items-center gap-3 mb-4 bg-light p-3 rounded shadow-sm">
             <i class="fa-solid fa-pills fa-2x"></i>
