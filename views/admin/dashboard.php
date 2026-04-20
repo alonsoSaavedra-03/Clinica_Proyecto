@@ -48,10 +48,10 @@ if (!isset($_SESSION['empleado_id'])) {
                     <button id="btnCitas" class="nav-link btn w-100 text-start panel" >Citas</button>
                 </li>
                 <li class="nav-item">
-                    <button class="nav-link btn w-100 text-start panel" >Gestión de Medicamentos</button>
+                    <button id="btnMedicamentos" class="nav-link btn w-100 text-start panel" >Gestión de Medicamentos</button>
                 </li>
                 <li class="nav-item">
-                    <button class="nav-link btn w-100 text-start panel" >Gestión de Documentos</button>
+                    <button id="btnDocumentos" class="nav-link btn w-100 text-start panel" >Gestión de Documentos</button>
                 </li>
                 <li class="nav-item">
                     <a href="../../PHP/logout.php">

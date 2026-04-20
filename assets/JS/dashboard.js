@@ -31,4 +31,38 @@ $(document).ready(function () {
 
     });
 
+
+    $("#btnMedicamentos").click(function () {
+
+    $("#vista-dinamica").fadeOut(200, function () {
+
+        $("#vista-dinamica").load("../../views/medicamentos/medicamentos.php", function () {
+
+            $("#vista-dinamica").fadeIn(200);
+
+            // 🔥 LLAMADA LIMPIA
+            initMedicamentos();
+
+        });
+
+    });
+
+});
+
+ // DOCUMENTOS
+    $("#btnDocumentos").click(function () {
+
+        $("#vista-dinamica").fadeOut(200, function () {
+
+            $("#vista-dinamica").load("../../views/documentos/documentos.php", function () {
+
+                $("#vista-dinamica").fadeIn(200);
+
+            });
+
+        });
+
+    });
+
+
 });
