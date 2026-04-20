@@ -17,7 +17,7 @@ try {
     $passwordHash = sha1($passwordIngresada);
 
     // Consulta
-    $sql = "SELECT ID_EMPLEADO, PASSWORD_HASH 
+    $sql = "SELECT ID_EMPLEADO, PASSWORD_HASH, CONCAT(NOMBRES_EMPLEADO, ' ', APELLIDOS_EMPLEADO) AS NOMBRE_COMPLETO, NOMBRES_EMPLEADO
             FROM EMPLEADO 
             WHERE USERNAME = :usuario 
             LIMIT 1";
@@ -33,6 +33,8 @@ try {
 
         session_start();
         $_SESSION['empleado_id'] = $usuarioFila['ID_EMPLEADO'];
+        $_SESSION['nombre_completo'] = $usuarioFila['NOMBRE_COMPLETO'];
+        $_SESSION['nombres_empleado'] = $usuarioFila['NOMBRES_EMPLEADO'];
 
         echo json_encode([
             "exito" => true,
