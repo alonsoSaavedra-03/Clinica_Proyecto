@@ -6,6 +6,7 @@ if (!isset($_SESSION['empleado_id'])) {
     header("Location: ../../views/layout/login.html");
     exit();
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -86,16 +87,11 @@ if (!isset($_SESSION['empleado_id'])) {
         </div>
     </div>
 
-
-
-
-
-
-
-  <!-- LIBRERIA JS SWEET ALERT -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="/Clinica_Proyecto/assets/JS/dashboard.js"></script>
-  <!-- LIBRERIA JS DE BOOTSTRAP -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <!-- LIBRERIA JS SWEET ALERT -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- JS PERSONALIZADO DEL DASHBOARD -->
+        <script src="/Clinica_Proyecto/assets/JS/dashboard.js"></script>
+    <!-- LIBRERIA JS DE BOOTSTRAP -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 </html>
