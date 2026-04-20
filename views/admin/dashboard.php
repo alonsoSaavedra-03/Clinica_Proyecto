@@ -58,10 +58,16 @@ $NombrePersonal = $_SESSION['nombres_empleado'] ?? 'Usuario';
                     <button id="btnCitas" class="btn w-100 text-start panel nav-link" >Citas</button>
                 </li>
                 <li class="nav-item">
+                    <button id="btnPagoCita" class="nav-link btn w-100 text-start panel" >Pagos Citas</button>
+                </li>
+                <li class="nav-item">
                     <button id="btnMedicamentos" class="nav-link btn w-100 text-start panel" >Gestión de Medicamentos</button>
                 </li>
                 <li class="nav-item">
                     <button id="btnDocumentos" class="nav-link btn w-100 text-start panel" >Gestión de Documentos</button>
+                </li>
+                <li class="nav-item">
+                    <button id="btnconfig" class="nav-link btn w-100 text-start panel" >Configuracion</button>
                 </li>
                 <li class="nav-item">
                     <a href="../../PHP/logout.php">
