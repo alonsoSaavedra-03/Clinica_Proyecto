@@ -2,7 +2,7 @@
 
   <!-- BUSCADOR -->
   <div class="mb-3">
-    <input type="text" id="buscadorPaciente" class="form-control"
+    <input type="text" id="buscadorPacienteDocumentos" class="form-control"
            placeholder="Buscar por DNI o nombre...">
   </div>
 
@@ -17,7 +17,7 @@
           <th>Acciones</th>
         </tr>
       </thead>
-      <tbody id="tablaPacientes"></tbody>
+      <tbody id="tablaPacientesDocumentos"></tbody>
     </table>
   </div>
 
@@ -102,6 +102,3 @@
     </div>
   </div>
 </div>
-
-<!-- JS -->
-<script src="/Clinica_Proyecto/assets/js/documentos.js"></script>

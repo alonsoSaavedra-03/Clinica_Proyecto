@@ -171,7 +171,3 @@
     </div>
 
 </div>
-
-    <!-- medicamentos JS -->
-    <script src="../../assets/JS/medicamentos.js"></script>
-

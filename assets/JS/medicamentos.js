@@ -1,4 +1,4 @@
-let tipoMovimiento = "";
+var tipoMovimiento = "";
 
 $(document).ready(function(){
     cargarMedicamentos();
@@ -186,16 +186,20 @@ $(document).ready(function(){
 
 
 
-$("#btnKardex").click(function(){
+$(document).on("click", "#btnKardex", function(){
+
+    console.log("CLICK KARDEX"); // prueba
+
     cargarKardex();
 
     let modal = new bootstrap.Modal(document.getElementById('modalKardex'));
     modal.show();
+
 });
 
 // Función para cargar el kardex desde la API
 function cargarKardex(){
-
+    console.log("Cargando kardex...");
     $.ajax({
         url: "/Clinica_Proyecto/PHP/api_kardex_listado.php",
         method: "GET",

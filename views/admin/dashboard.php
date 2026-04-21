@@ -95,18 +95,18 @@ $NombrePersonal = $_SESSION['nombres_empleado'] ?? 'Usuario';
             </header>
 
             <main class="p-4" id="vista-dinamica">
-                <div class="card p-5 shadow-sm text-center ">
-                    <h2 class="ola">Bienvenido al Sistema de la Clínica</h2>
-           
-                </div>
             </main>
         </div>
     </div>
 
     <!-- LIBRERIA JS SWEET ALERT -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- JS -->
+    <script src="/Clinica_Proyecto/assets/js/documentos.js"></script>
     <!-- JS PERSONALIZADO DEL DASHBOARD -->
         <script src="/Clinica_Proyecto/assets/JS/dashboard.js"></script>
+    <!-- medicamentos JS -->
+        <script src="../../assets/JS/medicamentos.js"></script>
     <!-- LIBRERIA JS DE BOOTSTRAP -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
