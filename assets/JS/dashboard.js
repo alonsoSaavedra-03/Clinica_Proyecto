@@ -1,4 +1,5 @@
-$(document).ready(function () {
+    
+    $(document).ready(function () {
 
     // INICIO
     $("#btnInicio").click(function () {
@@ -93,5 +94,17 @@ $(document).ready(function () {
 
     });
 
+    // PAGO CITAS (CORREGIDO)
+    $("#btnPagoCita").click(function () {
+        $("#vista-dinamica").fadeOut(200, function () {
+            // Se actualizó la ruta a admin/pago_cita.php
+            $("#vista-dinamica").load("../../views/admin/pago_cita.php", function () {
+                $("#vista-dinamica").fadeIn(200);
+            });
+        });
+    });
+
     $("#btnInicio").click();
 });
+    
+    

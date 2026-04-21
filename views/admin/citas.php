@@ -92,4 +92,4 @@
     </div>
 </div>
 
-<script src="../../assets/JS/citas.js"></script>
+<script src="../../assets/JS/citas.js"></script> 
