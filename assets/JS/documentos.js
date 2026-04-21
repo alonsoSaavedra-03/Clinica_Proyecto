@@ -1,16 +1,20 @@
-$(document).ready(function(){
-    cargarPacientes();
+// 🔹 INICIALIZAR DOCUMENTOS
+function initDocumentos(){
 
-    $("#buscadorPaciente").on("keyup", function(){
+    cargarPacientesDocumentos();
+
+    $("#buscadorPacienteDocumentos").off("keyup").on("keyup", function(){
         let val = $(this).val().toLowerCase();
-        $("#tablaPacientes tr").filter(function(){
+
+        $("#tablaPacientesDocumentos tr").filter(function(){
             $(this).toggle($(this).text().toLowerCase().indexOf(val) > -1)
         });
     });
-});
 
-// 🔹 CARGAR PACIENTES
-function cargarPacientes(){
+}
+
+// 🔹 CARGAR PACIENTES (RENOMBRADO)
+function cargarPacientesDocumentos(){
     $.get("/Clinica_Proyecto/PHP/api/pacientes.php?accion=listar", function(data){
 
         let html = "";
@@ -32,7 +36,7 @@ function cargarPacientes(){
             </tr>`;
         });
 
-        $("#tablaPacientes").html(html);
+        $("#tablaPacientesDocumentos").html(html);
     });
 }
 
@@ -45,20 +49,19 @@ $(document).on("click", ".btn-expediente", function(){
     $("#tituloPaciente").text("Expediente de: " + nombre);
     $("#docPacienteId").val(id);
 
-    cargarExpediente(id);
+    cargarExpedienteDocumentos(id);
 
     let modal = new bootstrap.Modal(document.getElementById('modalExpediente'));
     modal.show();
 });
 
-// 🔹 CARGAR EXPEDIENTE
-function cargarExpediente(id){
+// 🔹 CARGAR EXPEDIENTE (RENOMBRADO)
+function cargarExpedienteDocumentos(id){
 
     $.get(`/Clinica_Proyecto/PHP/api_expediente.php?id=${id}`, function(data){
 
         data = JSON.parse(data);
 
-        // RECETAS
         let recetasHTML = "";
         if(data.recetas.length === 0){
             recetasHTML = "<tr><td colspan='4'>Sin recetas</td></tr>";
@@ -75,7 +78,6 @@ function cargarExpediente(id){
         }
         $("#tablaRecetas").html(recetasHTML);
 
-        // DOCUMENTOS
         let docsHTML = "";
         if(data.documentos.length === 0){
             docsHTML = "<li class='list-group-item'>Sin documentos</li>";
@@ -88,7 +90,7 @@ function cargarExpediente(id){
                         target="_blank" 
                         class="btn btn-sm btn-primary">
                         Ver
-                        </a>
+                    </a>
                 </li>`;
             });
         }
@@ -97,8 +99,8 @@ function cargarExpediente(id){
     });
 }
 
-// 🔹 SUBIR DOCUMENTO
-$("#formDocumento").submit(function(e){
+// 🔹 SUBIR DOCUMENTO (MEJORADO PARA SPA)
+$(document).off("submit", "#formDocumento").on("submit", "#formDocumento", function(e){
     e.preventDefault();
 
     let formData = new FormData(this);
@@ -117,7 +119,7 @@ $("#formDocumento").submit(function(e){
                 Swal.fire("Error", res.error, "error");
             }else{
                 Swal.fire("Correcto", "Documento subido", "success");
-                cargarExpediente($("#docPacienteId").val());
+                cargarExpedienteDocumentos($("#docPacienteId").val());
             }
         }
     });

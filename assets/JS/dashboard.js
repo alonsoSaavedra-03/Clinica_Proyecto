@@ -40,7 +40,7 @@ $(document).ready(function () {
 
         $("#vista-dinamica").fadeOut(200, function () {
 
-            $("#vista-dinamica").load("../../views/citas/citas.php", function () {
+            $("#vista-dinamica").load("../../views/admin/citas.php", function () {
 
                 $("#vista-dinamica").fadeIn(200);
 
@@ -70,11 +70,22 @@ $(document).ready(function () {
  // DOCUMENTOS
     $("#btnDocumentos").click(function () {
 
+        $(".modal.show").each(function () {
+            let modal = bootstrap.Modal.getInstance(this);
+            if (modal) modal.hide();
+        });
+
+        $("body").removeClass("modal-open");
+        $(".modal-backdrop").remove();
+
         $("#vista-dinamica").fadeOut(200, function () {
 
             $("#vista-dinamica").load("../../views/documentos/documentos.php", function () {
 
                 $("#vista-dinamica").fadeIn(200);
+
+                // 🔥 CAMBIO AQUÍ
+                initDocumentos();
 
             });
 
