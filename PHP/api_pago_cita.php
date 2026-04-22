@@ -1,10 +1,8 @@
 <?php
 // PHP/api/pago_cita.php
 
-// 1. Conexión (Subimos dos niveles para llegar a la raíz desde api/ y php/)
 require_once "../../config/conexion.php";
 
-// 2. Definir la acción (listar, registrar, editar, eliminar)
 $accion = $_GET['accion'] ?? '';
 
 // Headers para formato JSON y permisos
@@ -18,7 +16,6 @@ header("Access-Control-Allow-Headers: Content-Type");
 ======================== */
 if($accion == "listar"){
     try {
-        // Mantenemos tu JOIN pero normalizamos los nombres de las columnas para el JS
         $sql = "SELECT 
                     P.ID_PAGO,
                     P.ID_CITA,
@@ -28,12 +25,11 @@ if($accion == "listar"){
                     P.FECHA_PAGO,
                     P.NUMERO_OPERACION,
                     PAC.NOMBRES_PACIENTE, 
-                    PAC.APELLIDOS_PACIENTE,
-                    C.FECHA_CITA
+                    PAC.APELLIDOS_PACIENTE
                 FROM PAGO_CITA P
                 INNER JOIN CITA C ON P.ID_CITA = C.ID_CITA
                 INNER JOIN PACIENTE PAC ON C.ID_PACIENTE = PAC.ID_PACIENTE
-                ORDER BY P.ID_PAGO DESC";
+                ORDER BY P.FECHA_PAGO DESC, P.ID_PAGO DESC";
 
         $stmt = $pdo->prepare($sql);
         $stmt->execute();
@@ -52,25 +48,25 @@ if($accion == "listar"){
 ======================== */
 if($accion == "registrar" && $_SERVER['REQUEST_METHOD'] == 'POST'){
     
-    // Capturamos los datos desde $_POST (enviados por el $.ajax)
     $id_cita   = $_POST['id_cita'] ?? null;
     $monto     = $_POST['monto'] ?? null;
     $metodo    = $_POST['metodo'] ?? null;
     $estado    = $_POST['estado'] ?? null;
     $operacion = $_POST['operacion'] ?? null;
+    $fecha     = $_POST['fecha_pago'] ?? null; // Recibimos la fecha manual
 
     try {
-        if(!$id_cita || !$monto){
-            throw new Exception("Datos obligatorios faltantes (Cita o Monto)");
+        if(!$id_cita || !$monto || !$fecha){
+            throw new Exception("Faltan datos: Cita, Monto y Fecha son obligatorios.");
         }
 
         $stmt = $pdo->prepare("
             INSERT INTO PAGO_CITA
-            (ID_CITA, MONTO_TOTAL, METODO_PAGO, ESTADO_PAGO, NUMERO_OPERACION)
-            VALUES(?,?,?,?,?)
+            (ID_CITA, MONTO_TOTAL, METODO_PAGO, ESTADO_PAGO, NUMERO_OPERACION, FECHA_PAGO)
+            VALUES(?,?,?,?,?,?)
         ");
 
-        $stmt->execute([$id_cita, $monto, $metodo, $estado, $operacion]);
+        $stmt->execute([$id_cita, $monto, $metodo, $estado, $operacion, $fecha]);
 
         echo json_encode(["success" => true, "message" => "Pago registrado correctamente"]);
 
@@ -91,6 +87,7 @@ if($accion == "editar" && $_SERVER['REQUEST_METHOD'] == 'POST'){
     $metodo    = $_POST['metodo'] ?? null;
     $estado    = $_POST['estado'] ?? null;
     $operacion = $_POST['operacion'] ?? null;
+    $fecha     = $_POST['fecha_pago'] ?? null; // Recibimos la fecha manual corregida
 
     try {
         $sql = "UPDATE PAGO_CITA SET 
@@ -98,11 +95,12 @@ if($accion == "editar" && $_SERVER['REQUEST_METHOD'] == 'POST'){
                     MONTO_TOTAL = ?, 
                     METODO_PAGO = ?, 
                     ESTADO_PAGO = ?, 
-                    NUMERO_OPERACION = ? 
+                    NUMERO_OPERACION = ?,
+                    FECHA_PAGO = ?
                 WHERE ID_PAGO = ?";
 
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([$id_cita, $monto, $metodo, $estado, $operacion, $id_pago]);
+        $stmt->execute([$id_cita, $monto, $metodo, $estado, $operacion, $fecha, $id_pago]);
 
         echo json_encode(["success" => true]);
 

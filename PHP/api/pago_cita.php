@@ -1,5 +1,4 @@
 <?php
-
 require_once "../../config/conexion.php";
 
 $accion = $_GET['accion'] ?? '';
@@ -8,7 +7,6 @@ $accion = $_GET['accion'] ?? '';
    LISTAR PAGOS
 ======================== */
 if($accion == "listar"){
-
     // Usamos JOIN para traer info del paciente y médico a través de la CITA
     $sql = "SELECT 
                 PG.ID_PAGO,
@@ -39,16 +37,17 @@ if($accion == "listar"){
    REGISTRAR PAGO
 ======================== */
 if($accion == "registrar"){
+    $id_cita   = $_POST['id_cita'];
+    $monto     = $_POST['monto'];
+    $metodo    = $_POST['metodo'];
+    $estado    = $_POST['estado'];
+    $operacion = $_POST['operacion'];
+    $fecha     = $_POST['fecha_pago']; // Capturamos la fecha manual del modal
 
-    $id_cita = $_POST['id_cita'];
-    $monto = $_POST['monto'];
-    $metodo = $_POST['metodo'];
-    $estado = $_POST['estado'];
-    $operacion = $_POST['operacion']; // Aquí va el BOL-, OP- o TRA-
-
+    // Añadimos FECHA_PAGO a la consulta para que use la que tú envías
     $sql = "INSERT INTO PAGO_CITA 
-            (ID_CITA, MONTO_TOTAL, METODO_PAGO, ESTADO_PAGO, NUMERO_OPERACION) 
-            VALUES (?, ?, ?, ?, ?)";
+            (ID_CITA, MONTO_TOTAL, METODO_PAGO, ESTADO_PAGO, NUMERO_OPERACION, FECHA_PAGO) 
+            VALUES (?, ?, ?, ?, ?, ?)";
 
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
@@ -56,7 +55,8 @@ if($accion == "registrar"){
         $monto,
         $metodo,
         $estado,
-        $operacion
+        $operacion,
+        $fecha
     ]);
 
     echo json_encode(["success" => true]);
@@ -66,20 +66,21 @@ if($accion == "registrar"){
    EDITAR PAGO
 ======================== */
 if($accion == "editar"){
-
-    $id_pago = $_POST['id'];
-    $id_cita = $_POST['id_cita'];
-    $monto = $_POST['monto'];
-    $metodo = $_POST['metodo'];
-    $estado = $_POST['estado'];
+    $id_pago   = $_POST['id'];
+    $id_cita   = $_POST['id_cita'];
+    $monto     = $_POST['monto'];
+    $metodo    = $_POST['metodo'];
+    $estado    = $_POST['estado'];
     $operacion = $_POST['operacion'];
+    $fecha     = $_POST['fecha_pago']; // Capturamos la fecha manual para actualizarla
 
     $sql = "UPDATE PAGO_CITA SET 
                 ID_CITA = ?, 
                 MONTO_TOTAL = ?, 
                 METODO_PAGO = ?, 
                 ESTADO_PAGO = ?, 
-                NUMERO_OPERACION = ? 
+                NUMERO_OPERACION = ?,
+                FECHA_PAGO = ? 
             WHERE ID_PAGO = ?";
 
     $stmt = $pdo->prepare($sql);
@@ -89,6 +90,7 @@ if($accion == "editar"){
         $metodo,
         $estado,
         $operacion,
+        $fecha,
         $id_pago
     ]);
 
@@ -99,13 +101,11 @@ if($accion == "editar"){
    ELIMINAR PAGO
 ======================== */
 if($accion == "eliminar"){
-
     $id = $_POST['id'];
-
     $sql = "DELETE FROM PAGO_CITA WHERE ID_PAGO = ?";
-
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$id]);
 
     echo json_encode(["success" => true]);
 }
+?>
