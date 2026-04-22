@@ -104,6 +104,15 @@
         });
     });
 
+    // CONFIGURACIÓN
+        $("#btnconfig").click(function () {
+        $("#vista-dinamica").fadeOut(200, function () {
+            $("#vista-dinamica").load("../../views/admin/configuracion.php", function () {
+                $("#vista-dinamica").fadeIn(200);
+            });
+        });
+    });
+
     $("#btnInicio").click();
 });
     
