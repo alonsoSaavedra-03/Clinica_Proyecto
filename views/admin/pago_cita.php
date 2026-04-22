@@ -51,6 +51,11 @@
                 </div>
 
                 <div class="mb-2">
+                    <label class="form-label">Fecha de Pago:</label>
+                    <input type="date" id="fecha_pago" class="form-control" value="<?php echo date('Y-m-d'); ?>">
+                </div>
+
+                <div class="mb-2">
                     <label class="form-label">Monto a Cobrar (S/):</label>
                     <input 
                         type="number" 
@@ -75,8 +80,7 @@
                     <select id="estado_pago" class="form-control">
                         <option value="PENDIENTE">Pendiente</option>
                         <option value="COMPLETADO">Completado</option>
-                        <option value="REEMBOLSADO">Reembolsado</option>
-                    </select>
+                        </select>
                 </div>
 
                 <div class="mb-2">

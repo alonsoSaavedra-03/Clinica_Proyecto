@@ -10,19 +10,17 @@ function cargarCitasSelect() {
         url: "../../PHP/api/citas.php?accion=listar",
         type: "GET",
         success: function (res) {
-            // Verificamos si res ya es objeto o es string
             let citas = typeof res === 'string' ? JSON.parse(res) : res;
             
             $("#id_cita").html('<option value="">Seleccionar cita asociada</option>');
             citas.forEach(c => {
-                // Usamos nombres de columnas según tu base de datos
                 let id = c.ID_CITA || c.id;
                 let paciente = (c.NOMBRES_PACIENTE || '') + " " + (c.APELLIDOS_PACIENTE || '');
-                let fecha = c.FECHA_CITA || c.fecha;
-
+                
+                // Cambio solicitado: Solo Nro de Cita y Nombre del Paciente
                 $("#id_cita").append(`
                     <option value="${id}">
-                        Cita #${id} - ${paciente} (${fecha})
+                        Cita #${id} - ${paciente}
                     </option>
                 `);
             });
@@ -45,14 +43,13 @@ function cargarPagos() {
                 html = '<tr><td colspan="9" class="text-center">No hay registros de pagos</td></tr>';
             } else {
                 pagos.forEach(p => {
-                    // Normalización de datos (Soporta mayúsculas y minúsculas)
                     let id = p.ID_PAGO || p.id;
                     let id_cita = p.ID_CITA || p.id_cita;
                     let monto = p.MONTO_TOTAL || p.monto;
                     let metodo = p.METODO_PAGO || p.metodo;
                     let estado = p.ESTADO_PAGO || p.estado;
                     let operacion = p.NUMERO_OPERACION || p.operacion || '---';
-                    let fecha_p = p.FECHA_PAGO || p.fecha || '---';
+                    let fecha_p = p.FECHA_PAGO || p.fecha || '';
                     let paciente = (p.NOMBRES_PACIENTE || p.paciente || 'S/N') + " " + (p.APELLIDOS_PACIENTE || '');
 
                     html += `
@@ -76,6 +73,7 @@ function cargarPagos() {
                                 data-monto="${monto}"
                                 data-metodo="${metodo}"
                                 data-estado="${estado}"
+                                data-fecha="${fecha_p}"
                                 data-operacion="${operacion}">
                                 Editar
                             </button>
@@ -102,13 +100,16 @@ $("#btnNuevoPago").click(function () {
     $("#guardarPago").show();
     $("#actualizarPago").hide();
     
-    // Limpiar campos manualmente para evitar errores de form
     $("#idPago").val("");
     $("#id_cita").val("");
     $("#monto").val("");
     $("#operacion").val("");
     $("#metodo").val("EFECTIVO");
     $("#estado_pago").val("PENDIENTE");
+    
+    // Ponemos la fecha actual por defecto en el nuevo input
+    let hoy = new Date().toISOString().split('T')[0];
+    $("#fecha_pago").val(hoy);
     
     cargarCitasSelect();
     $("#modalPago").modal("show");
@@ -123,11 +124,12 @@ $("#guardarPago").click(function () {
         monto: $("#monto").val(),
         metodo: $("#metodo").val(),
         estado: $("#estado_pago").val(),
-        operacion: $("#operacion").val()
+        operacion: $("#operacion").val(),
+        fecha_pago: $("#fecha_pago").val() // Enviamos la fecha manual
     };
 
-    if(!datos.id_cita || !datos.monto) {
-        Swal.fire("Atención", "Cita y Monto son obligatorios", "info");
+    if(!datos.id_cita || !datos.monto || !datos.fecha_pago) {
+        Swal.fire("Atención", "Cita, Monto y Fecha son obligatorios", "info");
         return;
     }
 
@@ -149,6 +151,7 @@ $("#guardarPago").click(function () {
 $(document).on("click", ".btnEditarPago", function () {
     let id = $(this).data("id");
     let cita = $(this).data("cita");
+    let fecha = $(this).data("fecha");
 
     $("#tituloModalPago").text("Editar Pago #" + id);
     $("#guardarPago").hide();
@@ -156,14 +159,13 @@ $(document).on("click", ".btnEditarPago", function () {
 
     cargarCitasSelect();
 
-    // Llenar campos con la data del botón
     $("#idPago").val(id);
     $("#monto").val($(this).data("monto"));
     $("#metodo").val($(this).data("metodo"));
     $("#estado_pago").val($(this).data("estado"));
     $("#operacion").val($(this).data("operacion"));
+    $("#fecha_pago").val(fecha); // Llenamos el calendario con la fecha del registro
 
-    // Esperar un poco a que el select se llene antes de asignar el valor
     setTimeout(function () {
         $("#id_cita").val(cita);
     }, 400);
@@ -181,7 +183,8 @@ $(document).on("click", "#actualizarPago", function () {
         monto: $("#monto").val(),
         metodo: $("#metodo").val(),
         estado: $("#estado_pago").val(),
-        operacion: $("#operacion").val()
+        operacion: $("#operacion").val(),
+        fecha_pago: $("#fecha_pago").val() // Enviamos la fecha editada
     };
 
     $.ajax({
@@ -208,7 +211,6 @@ $(document).on("click", ".btnEliminarPago", function () {
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
         confirmButtonText: "Sí, eliminar",
         cancelButtonText: "Cancelar"
     }).then((result) => {
