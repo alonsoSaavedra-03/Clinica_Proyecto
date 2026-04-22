@@ -25,7 +25,13 @@ body {
     font-family: 'Poppins', sans-serif;
     background-color: var(--colorFondo);
 }
+#graficoLinea {
+    max-height: 390px;
+}
 
+#graficoPastel {
+    max-height: 390px;
+}
 /* ===== SIDEBAR ===== */
 #sidebar {
     min-width: 260px;
