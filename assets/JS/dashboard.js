@@ -1,4 +1,4 @@
-    
+
     $(document).ready(function () {
 
     // INICIO
@@ -11,6 +11,8 @@
             $("#vista-dinamica").load("../../views/inicio/inicio.php", function () {
 
                 $("#nombrePersonal").text(nombre);
+                console.log("Existe cargarDashboard:", typeof cargarDashboard);
+                cargarDashboard();
 
                 $("#vista-dinamica").fadeIn(200);
 
@@ -85,7 +87,6 @@
 
                 $("#vista-dinamica").fadeIn(200);
 
-                // 🔥 CAMBIO AQUÍ
                 initDocumentos();
 
             });
@@ -114,6 +115,73 @@
     });
 
     $("#btnInicio").click();
+
+
+    function cargarDashboard() {
+    fetch("../../PHP/api/dashboard.php")
+        .then(res => {
+            if (!res.ok) {
+                throw new Error("Error en la respuesta del servidor");
+            }
+            return res.json();
+        })
+        .then(data => {
+
+            console.log("DATA DASHBOARD:", data);
+
+            // VALIDACIÓN IMPORTANTE
+            if (!data || !data.pacientes_mes || !data.citas_estado) {
+                console.error("Datos incompletos:", data);
+                return;
+            }
+
+            // 🔹 CARDS
+            document.getElementById("totalPacientes").innerText = data.pacientes ?? 0;
+            document.getElementById("citasHoy").innerText = data.citas_hoy ?? 0;
+            document.getElementById("totalEmpleados").innerText = data.empleados ?? 0;
+            document.getElementById("totalCitas").innerText = data.total_citas ?? 0;
+
+            // DESTRUIR GRÁFICOS SI EXISTEN
+            if (window.graficoLinea instanceof Chart) {
+                window.graficoLinea.destroy();
+            }
+
+            if (window.graficoPastel instanceof Chart) {
+                window.graficoPastel.destroy();
+            }
+
+            // GRAFICO LINEA
+            const ctxLinea = document.getElementById("graficoLinea").getContext("2d");
+
+            window.graficoLinea = new Chart(ctxLinea, {
+                type: 'line',
+                data: {
+                    labels: ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
+                    datasets: [{
+                        label: 'Pacientes',
+                        data: data.pacientes_mes,
+                        fill: true
+                    }]
+                }
+            });
+
+            // GRAFICO PASTEL
+            const ctxPastel = document.getElementById("graficoPastel").getContext("2d");
+
+            window.graficoPastel = new Chart(ctxPastel, {
+                type: 'pie',
+                data: {
+                    labels: data.citas_estado.labels,
+                    datasets: [{
+                        data: data.citas_estado.data
+                    }]
+                }
+            });
+
+        })
+        .catch(error => {
+            console.error("ERROR EN DASHBOARD:", error);
+        });
+}
 });
-    
     

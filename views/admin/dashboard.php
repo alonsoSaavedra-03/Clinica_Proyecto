@@ -98,7 +98,8 @@ $NombrePersonal = $_SESSION['nombres_empleado'] ?? 'Usuario';
             </main>
         </div>
     </div>
-
+    <!-- JS PERSONALIZADO DE INICIO -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- LIBRERIA JS SWEET ALERT -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- JS -->
