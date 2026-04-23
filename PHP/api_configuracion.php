@@ -1,43 +1,54 @@
 <?php
-// Reporte de errores para depuración
+// PHP/api_configuracion.php
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 session_start();
+require_once "../config/conexion.php";
 
-// Ruta de conexión: Un nivel arriba desde PHP/ a la raíz
-$ruta_conexion = "../config/conexion.php";
-
-if (file_exists($ruta_conexion)) {
-    require_once $ruta_conexion;
-} else {
-    header("Content-Type: application/json");
-    die(json_encode(["error" => "No se encontro conexion.php"]));
-}
-
-// Headers obligatorios
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: GET, POST");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 
-$accion = $_GET['accion'] ?? '';
+$accion = $_GET['accion'] ?? 'listar'; // Si no hay acción, por defecto busca 'listar'
 
-/**
- * CORRECCIÓN CLAVE:
- * Usamos 'empleado_id' porque es el nombre que definiste en tu login.php
- */
-$id_sesion = $_SESSION['empleado_id'] ?? null;
+// Recuperamos la sesión para que tu módulo individual siga funcionando
+$id_sesion = $_SESSION['empleado_id'] ?? null; 
 $tipo_usuario = $_SESSION['tipo_usuario'] ?? 'empleado';
 
-/* ========================
-   LISTAR DATOS DEL PERFIL
-======================== */
-if($accion == "listar"){
+/* ============================================================
+   1. LISTAR TODOS (Para ver a todos en Postman o Admin)
+============================================================ */
+if($accion == "listar_todos"){
     try {
-        if(!$id_sesion) {
-            echo json_encode(["error" => "Sesion no encontrada. Inicie sesion de nuevo."]);
+        $sql_emp = "SELECT 'Empleado' AS TIPO, ID_EMPLEADO AS ID, NOMBRES_EMPLEADO AS NOMBRES, 
+                    USERNAME, PASSWORD_HASH, CORREO_EMPLEADO AS CORREO FROM EMPLEADO";
+        $stmt_emp = $pdo->query($sql_emp);
+        $empleados = $stmt_emp->fetchAll(PDO::FETCH_ASSOC);
+
+        $sql_pac = "SELECT 'Paciente' AS TIPO, ID_PACIENTE AS ID, NOMBRES_PACIENTE AS NOMBRES, 
+                    USERNAME, PASSWORD_HASH, CORREO_PACIENTE AS CORREO FROM PACIENTE";
+        $stmt_pac = $pdo->query($sql_pac);
+        $pacientes = $stmt_pac->fetchAll(PDO::FETCH_ASSOC);
+
+        echo json_encode(array_merge($empleados, $pacientes));
+        exit;
+    } catch(PDOException $e) {
+        echo json_encode(["error" => $e->getMessage()]);
+        exit;
+    }
+}
+
+/* ============================================================
+   2. LISTAR PERFIL (Necesario para que tu módulo no de Error AJAX)
+============================================================ */
+if($accion == "listar" || empty($accion)){
+    try {
+        // Si no hay sesión, devolvemos un objeto vacío en lugar de un error de texto
+        if (!$id_sesion) {
+            echo json_encode(["error" => "No hay sesión activa"]);
             exit;
         }
 
@@ -55,49 +66,53 @@ if($accion == "listar"){
         $stmt->execute([$id_sesion]);
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        echo json_encode($data ? $data : ["error" => "Usuario no encontrado en la DB"]);
-
+        echo json_encode($data ? $data : ["error" => "Usuario no encontrado"]);
+        exit;
     } catch(PDOException $e) {
-        echo json_encode(["error" => "Error de Base de Datos: " . $e->getMessage()]);
+        echo json_encode(["error" => $e->getMessage()]);
+        exit;
     }
 }
 
-/* ========================
-   SECCIÓN EDITAR
-======================== */
+/* ============================================================
+   3. EDITAR (Soporta JSON y Formularios tradicionales)
+============================================================ */
 if($accion == "editar" && $_SERVER['REQUEST_METHOD'] == 'POST'){
-    $correo   = $_POST['correo'] ?? null;
-    $celular  = $_POST['celular'] ?? null;
-    $password = $_POST['password'] ?? ''; 
+    // 1. Intentar leer como JSON (Postman)
+    $input = json_decode(file_get_contents('php://input'), true);
+    
+    // 2. Si no es JSON, intentar leer de $_POST (Formulario Web)
+    $id_target   = $input['ID']       ?? $_POST['id']       ?? $id_sesion;
+    $tipo_target = $input['TIPO']     ?? $_POST['tipo']     ?? $tipo_usuario;
+    $correo      = $input['CORREO']   ?? $_POST['correo']   ?? null;
+    $celular     = $input['CELULAR']  ?? $_POST['celular']  ?? null;
+    $password    = $input['PASSWORD'] ?? $_POST['password'] ?? '';
 
     try {
-        if(!$id_sesion) throw new Exception("No hay sesion activa.");
-
-        if ($tipo_usuario == 'empleado') {
+        // VALIDACIÓN: Si los campos llegan vacíos desde la web, NO sobreescribir con NULL
+        // Solo actualizamos si el campo tiene contenido
+        if (strtolower($tipo_target) == 'empleado') {
             if (!empty($password)) {
-                // Usamos sha1() porque es lo que usa tu login.php
-                $pass_hash = sha1($password);
                 $sql = "UPDATE EMPLEADO SET CORREO_EMPLEADO=?, CELULAR_EMPLEADO=?, PASSWORD_HASH=? WHERE ID_EMPLEADO=?";
-                $params = [$correo, $celular, $pass_hash, $id_sesion];
+                $params = [$correo, $celular, sha1($password), $id_target];
             } else {
                 $sql = "UPDATE EMPLEADO SET CORREO_EMPLEADO=?, CELULAR_EMPLEADO=? WHERE ID_EMPLEADO=?";
-                $params = [$correo, $celular, $id_sesion];
+                $params = [$correo, $celular, $id_target];
             }
         } else {
             if (!empty($password)) {
-                $pass_hash = sha1($password);
                 $sql = "UPDATE PACIENTE SET CORREO_PACIENTE=?, CELULAR_PACIENTE=?, PASSWORD_HASH=? WHERE ID_PACIENTE=?";
-                $params = [$correo, $celular, $pass_hash, $id_sesion];
+                $params = [$correo, $celular, sha1($password), $id_target];
             } else {
                 $sql = "UPDATE PACIENTE SET CORREO_PACIENTE=?, CELULAR_PACIENTE=? WHERE ID_PACIENTE=?";
-                $params = [$correo, $celular, $id_sesion];
+                $params = [$correo, $celular, $id_target];
             }
         }
         
         $stmt = $pdo->prepare($sql);
         $stmt->execute($params);
-        echo json_encode(["success" => true]);
-
+        
+        echo json_encode(["success" => true, "message" => "Actualizado correctamente"]);
     } catch(Exception $e) {
         echo json_encode(["success" => false, "error" => $e->getMessage()]);
     }
