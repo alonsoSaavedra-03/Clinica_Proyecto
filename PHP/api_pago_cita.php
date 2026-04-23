@@ -1,18 +1,26 @@
 <?php
-// PHP/api/pago_cita.php
+// PHP/api_pago_cita.php
 
-require_once "../../config/conexion.php";
+// 1. Mostrar errores para depuración
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
+// 2. Conexión
+require_once "../config/conexion.php";
+
+// 3. Capturar acción
 $accion = $_GET['accion'] ?? '';
+$metodo = $_SERVER['REQUEST_METHOD'];
 
-// Headers para formato JSON y permisos
+// 4. Headers para API JSON
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: GET, POST");
+header("Access-Control-Allow-Methods: GET, POST, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 
 /* ========================
-   LISTAR PAGOS
+   LISTAR PAGOS (GET)
 ======================== */
 if($accion == "listar"){
     try {
@@ -39,25 +47,27 @@ if($accion == "listar"){
 
     } catch(Exception $e) {
         http_response_code(500);
-        echo json_encode(["error" => $e->getMessage()]);
+        echo json_encode(["error" => "Error al listar: " . $e->getMessage()]);
     }
 }
 
 /* ========================
-   REGISTRAR PAGO
+   REGISTRAR PAGO (POST)
 ======================== */
-if($accion == "registrar" && $_SERVER['REQUEST_METHOD'] == 'POST'){
+elseif($accion == "registrar" && $metodo == 'POST'){
     
-    $id_cita   = $_POST['id_cita'] ?? null;
-    $monto     = $_POST['monto'] ?? null;
-    $metodo    = $_POST['metodo'] ?? null;
-    $estado    = $_POST['estado'] ?? null;
-    $operacion = $_POST['operacion'] ?? null;
-    $fecha     = $_POST['fecha_pago'] ?? null; // Recibimos la fecha manual
+    $input = json_decode(file_get_contents('php://input'), true);
+
+    $id_cita   = $input['ID_CITA'] ?? ($_POST['id_cita'] ?? null);
+    $monto     = $input['MONTO_TOTAL'] ?? ($_POST['monto'] ?? null);
+    $metodo_p  = $input['METODO_PAGO'] ?? ($_POST['metodo'] ?? null);
+    $estado    = $input['ESTADO_PAGO'] ?? ($_POST['estado'] ?? null);
+    $operacion = $input['NUMERO_OPERACION'] ?? ($_POST['operacion'] ?? null);
+    $fecha     = $input['FECHA_PAGO'] ?? ($_POST['fecha_pago'] ?? null);
 
     try {
-        if(!$id_cita || !$monto || !$fecha){
-            throw new Exception("Faltan datos: Cita, Monto y Fecha son obligatorios.");
+        if (empty($id_cita) || empty($monto) || empty($fecha)) {
+            throw new Exception("Faltan datos obligatorios (Cita, Monto o Fecha).");
         }
 
         $stmt = $pdo->prepare("
@@ -65,10 +75,22 @@ if($accion == "registrar" && $_SERVER['REQUEST_METHOD'] == 'POST'){
             (ID_CITA, MONTO_TOTAL, METODO_PAGO, ESTADO_PAGO, NUMERO_OPERACION, FECHA_PAGO)
             VALUES(?,?,?,?,?,?)
         ");
+        $stmt->execute([$id_cita, $monto, $metodo_p, $estado, $operacion, $fecha]);
 
-        $stmt->execute([$id_cita, $monto, $metodo, $estado, $operacion, $fecha]);
+        // Buscar datos del paciente para la respuesta
+        $sql_info = "SELECT PAC.NOMBRES_PACIENTE, PAC.APELLIDOS_PACIENTE 
+                     FROM CITA C
+                     INNER JOIN PACIENTE PAC ON C.ID_PACIENTE = PAC.ID_PACIENTE
+                     WHERE C.ID_CITA = ?";
+        $stmt_info = $pdo->prepare($sql_info);
+        $stmt_info->execute([$id_cita]);
+        $paciente = $stmt_info->fetch(PDO::FETCH_ASSOC);
 
-        echo json_encode(["success" => true, "message" => "Pago registrado correctamente"]);
+        echo json_encode([
+            "success" => true, 
+            "message" => "Pago registrado correctamente",
+            "paciente" => $paciente ? $paciente['NOMBRES_PACIENTE'] . " " . $paciente['APELLIDOS_PACIENTE'] : "Desconocido"
+        ]);
 
     } catch(Exception $e) {
         http_response_code(400);
@@ -77,32 +99,31 @@ if($accion == "registrar" && $_SERVER['REQUEST_METHOD'] == 'POST'){
 }
 
 /* ========================
-   EDITAR PAGO
+   EDITAR PAGO (POST)
 ======================== */
-if($accion == "editar" && $_SERVER['REQUEST_METHOD'] == 'POST'){
+elseif($accion == "editar" && $metodo == 'POST'){
     
-    $id_pago   = $_POST['id'] ?? null;
-    $id_cita   = $_POST['id_cita'] ?? null;
-    $monto     = $_POST['monto'] ?? null;
-    $metodo    = $_POST['metodo'] ?? null;
-    $estado    = $_POST['estado'] ?? null;
-    $operacion = $_POST['operacion'] ?? null;
-    $fecha     = $_POST['fecha_pago'] ?? null; // Recibimos la fecha manual corregida
+    $input = json_decode(file_get_contents('php://input'), true);
+    $id_pago   = $input['ID_PAGO'] ?? ($_POST['id'] ?? null);
+    $id_cita   = $input['ID_CITA'] ?? ($_POST['id_cita'] ?? null);
+    $monto     = $input['MONTO_TOTAL'] ?? ($_POST['monto'] ?? null);
+    $metodo_p  = $input['METODO_PAGO'] ?? ($_POST['metodo'] ?? null);
+    $estado    = $input['ESTADO_PAGO'] ?? ($_POST['estado'] ?? null);
+    $operacion = $input['NUMERO_OPERACION'] ?? ($_POST['operacion'] ?? null);
+    $fecha     = $input['FECHA_PAGO'] ?? ($_POST['fecha_pago'] ?? null);
 
     try {
+        if(!$id_pago) throw new Exception("ID de pago no proporcionado.");
+
         $sql = "UPDATE PAGO_CITA SET 
-                    ID_CITA = ?, 
-                    MONTO_TOTAL = ?, 
-                    METODO_PAGO = ?, 
-                    ESTADO_PAGO = ?, 
-                    NUMERO_OPERACION = ?,
-                    FECHA_PAGO = ?
+                    ID_CITA = ?, MONTO_TOTAL = ?, METODO_PAGO = ?, 
+                    ESTADO_PAGO = ?, NUMERO_OPERACION = ?, FECHA_PAGO = ?
                 WHERE ID_PAGO = ?";
 
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([$id_cita, $monto, $metodo, $estado, $operacion, $fecha, $id_pago]);
+        $stmt->execute([$id_cita, $monto, $metodo_p, $estado, $operacion, $fecha, $id_pago]);
 
-        echo json_encode(["success" => true]);
+        echo json_encode(["success" => true, "message" => "Pago actualizado"]);
 
     } catch(Exception $e) {
         http_response_code(400);
@@ -111,21 +132,41 @@ if($accion == "editar" && $_SERVER['REQUEST_METHOD'] == 'POST'){
 }
 
 /* ========================
-   ELIMINAR PAGO
+   ELIMINAR PAGO 
 ======================== */
-if($accion == "eliminar" && $_SERVER['REQUEST_METHOD'] == 'POST'){
+elseif($accion == "eliminar" && ($metodo == 'POST' || $metodo == 'DELETE')){
     
-    $id = $_POST['id'] ?? null;
+    $input = json_decode(file_get_contents('php://input'), true);
+    $id = $input['ID_PAGO'] ?? ($_POST['id'] ?? null);
 
     try {
+        if(!$id) throw new Exception("ID de pago no enviado.");
+
         $stmt = $pdo->prepare("DELETE FROM PAGO_CITA WHERE ID_PAGO = ?");
         $stmt->execute([$id]);
 
-        echo json_encode(["success" => true]);
+        echo json_encode([
+            "success" => true, 
+            "message" => "Pago con ID $id eliminado correctamente."
+        ]);
 
     } catch(Exception $e) {
         http_response_code(400);
         echo json_encode(["success" => false, "error" => $e->getMessage()]);
     }
+}
+
+/* ========================
+   CASO POR DEFECTO
+======================== */
+else {
+    http_response_code(404);
+    echo json_encode([
+        "error" => "Acción no válida o método incorrecto.",
+        "recibido" => [
+            "accion" => $accion,
+            "metodo" => $metodo
+        ]
+    ]);
 }
 ?>
